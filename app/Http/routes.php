@@ -15,7 +15,7 @@
     return view('welcome');
 }); */
 
-Route::post('/record', 'Record@index');
+Route::get('/record', 'Record@index');
 
 /*
 |--------------------------------------------------------------------------
