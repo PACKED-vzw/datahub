@@ -51,7 +51,12 @@ class Record extends Controller
                     'rev' => $o_package['_rev']
                 ];
             } else {
-                throw new Exception('ID collision.');
+                /* It isn't */
+                $cdb_info = $this->storageManager->update($e_cdb_package->body['_id'], $e_cdb_package->body['_rev'], $package);
+                $o_package['cdb_control'] = [
+                    'id' => $cdb_info['id'],
+                    'rev' => $cdb_info['rev']
+                ];
             }
         } else {
             /* This one doesn't TODO only do this for 404 errors */
