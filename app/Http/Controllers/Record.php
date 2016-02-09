@@ -29,42 +29,48 @@ class Record extends Controller
         // 2. XML naar JSON (naief)
         // $lido_json = $this->packageManager->XMLToJson('');
         $package = $this->packageManager->package('');
+        $cdb_control = [
+           'id' => '0a103d69',
+           'rev' => '1-b68362c84085e31c4571821fbe488c3d'
+           ];
+        $package->set('cdb_control', $cdb_control);
 
         // 3. UUID toekennen
 
         // 4. datum + instelling
 
         // 5. check als reeds in couch
-        // Only if cdb_control.id is set
-        if (array_key_exists('id', $package['cdb_control'])) {
-            /*
-             * This item might exist, if so, "update" it. If not
-             * it is definitely something new, so just create it.
-             */
-            $e_package = $this->storageManager->read($package['cdb_control']['id']);
-            if ($e_package->status != 200) {
-                // This package does not exist, create it
-                $cdb_info = $this->storageManager->create($package);
+        // The uuid is in fact a hash of a hash. This is also the ID. If we have an ID-collision, check
+        // whether the longer hashes match. If they do, it is the same. If they don't, we have a problem.
+        $o_package = $package;
+        $e_cdb_package = $this->storageManager->read($package['uuid']);
+        if($e_cdb_package->status === 200) {
+            /* This one exists */
+            if($this->storageManager->compare_hash($package, $e_cdb_package) === true) {
+                /* It's the same */
+                $o_package = $e_cdb_package->body;
+                $o_package['cdb_control'] = [
+                    'id' => $o_package['_id'],
+                    'rev' => $o_package['_rev']
+                ];
             } else {
-                // This package does exist, update it
-                $cdb_info = $this->storageManager->update($package['cdb_control']['id'], $package['cdb_control']['rev'], $package);
+                throw new Exception('ID collision.');
             }
         } else {
+            /* This one doesn't TODO only do this for 404 errors */
             $cdb_info = $this->storageManager->create($package);
+            // 6. Update cdb_control
+            $o_package['cdb_control'] = [
+                'id' => $cdb_info['id'],
+                'rev' => $cdb_info['rev']
+            ];
         }
-
-
-        // 6. Update cdb_control
-        $package['cdb_control'] = [
-            'id' => $cdb_info['id'],
-            'rev' => $cdb_info['rev']
-        ];
 
         // 7. Return resultaat
 
         $headers = [
             'Content-type' => 'application/json'
         ];
-        return response(json_encode((array)$package), 200, $headers);
+        return response(json_encode((array)$o_package), 200, $headers);
     }
 }
