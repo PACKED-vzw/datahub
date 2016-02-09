@@ -17,18 +17,30 @@ use Sabre\Xml\Service;
 class PackageManager
 {
 
+    // @todo
+    //   The XML generator library we use is sabre/xml. This should be swappable
+    //   Any XML library should do as long as it represents the XML in JSON
+    //   through clark notation (see: lower)
     public function __construct()
     {
         $this->service = new Service();
+        $this->service->namespaceMap = [
+            'http://www.w3.org/XML/1998/namespace' => 'xml',
+            'http://www.w3.org/2001/XMLSchema' => 'xsd',
+            'http://www.lido-schema.org' => 'lido',
+            'http://www.opengis.net/gml' => 'gml',
+            'http://www.mda.org.uk/spectrumXML/Documentation' => 'doc',
+            'http://www.w3.org/2001/XMLSchema-instance' => 'xsi'
+        ];
     }
 
     public function package($data)
     {
-        // 1. Create package
+        // Create package
         $package = new ArrayCollection([
             'cdb_control' => [],
             'uuid' => null,
-            'record' => null,
+            'record' => $this->XMLToObj($data),
             'metadata' => [
                 'created' => Carbon::now()->timestamp,
                 'hash' => null,
@@ -37,13 +49,10 @@ class PackageManager
             ],
         ]);
 
-        // 2. Create a sabre/xml object from the xml data
-        $package['record'] = $this->XMLToObj($data);
-
-        // 3. Create hash before this is json-ified
+        // Create hash before this is json-ified
         $package->set('metadata', $this->hash($package, $data));
 
-        // 4. Set the uuid
+        // Set the uuid
         $package->set('uuid', $package['metadata']['pref_id_hash']); // TODO from workPid
 
         // x. Return
@@ -59,9 +68,38 @@ class PackageManager
         return $metadata;
     }
 
+    /**
+     * Turns the XML string into an array that can be converted to a JSON object
+     *
+     * Important! The converted array represents the XML in Clark Notation. This
+     * means that the record is encapsulated and stored in Clark Notation. The
+     * Benefit of this approach is that this format allows easy conversion
+     * between XML and JSON while respecting the expressivenes of XML.
+     *
+     * See:
+     *  - http://sabre.io/xml/clark-notation/
+     *  - http://www.jclark.com/xml/xmlns.htm
+     */
     public function XMLToObj($input_xml)
     {
         return $this->service->parse($input_xml);
+    }
+
+    public function ObjToXML($object)
+    {
+        return $this->service->write('{http://www.lido-schema.org}lido', $object);
+    }
+
+    /**
+     * Compare hashes of two packages. If this function returns true, the
+     * encapsulated records are equal. If not, there is a difference of at least
+     * one character between both records.
+     */
+    public function compareHashes(ArrayCollection $source, ArrayCollection $target)
+    {
+        $sourceMetadata = $source->get('metadata');
+        $targetMetadata = $target->get('metadata');
+        return ($sourceMetadata['hash'] === $targetMetadata['hash']) ? true : false;
     }
 
     protected function getUuidSource(ArrayCollection $package)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\PackageManager;
@@ -21,58 +23,85 @@ class Record extends Controller
         $this->storageManager = $storageManager;
     }
 
+    /**
+     * POST /record
+     *
+     * Create or update an existing record in the datahub
+     */
     function index(Request $request)
     {
-        // 1. validatie van request
+        // Retrieve & validate othe request data.
         $lidoRecord = $request->getContent();
         $xml_file = __DIR__.'/lido_example.xml';
         $xml_data = file_get_contents($xml_file);
 
-        // 2. XML naar JSON (naief)
-        // $lido_json = $this->packageManager->XMLToJson('');
+        // Package the data.
         $package = $this->packageManager->package($xml_data);
 
-        // 3. UUID toekennen
+        $response = [];
 
-        // 4. datum + instelling
+        $uuid = $package->get('uuid');
 
-        // 5. check als reeds in couch
-        // The uuid is in fact a hash of a hash. This is also the ID. If we have an ID-collision, check
-        // whether the longer hashes match. If they do, it is the same. If they don't, we have a problem.
-        $o_package = $package;
-        $e_cdb_package = $this->storageManager->read($package['uuid']);
-        if($e_cdb_package->status === 200) {
-            /* This one exists */
-            if($this->storageManager->compare_hash($package, $e_cdb_package) === true) {
-                /* It's the same */
-                $o_package = $e_cdb_package->body;
-                $o_package['cdb_control'] = [
-                    'id' => $o_package['_id'],
-                    'rev' => $o_package['_rev']
+        // Check if the package was already stored and needs updating.
+        if ($e_cdb_package = $this->storageManager->read($uuid)) {
+            if ($this->packageManager->compareHashes($e_cdb_package, $package)) {
+                // Do nothing!
+                $response = [
+                    'status' => 'untouched',
+                    'uuid' => $e_cdb_package->get('uuid')
                 ];
             } else {
-                /* It isn't */
-                $cdb_info = $this->storageManager->update($e_cdb_package->body['_id'], $e_cdb_package->body['_rev'], $package);
-                $o_package['cdb_control'] = [
-                    'id' => $cdb_info['id'],
-                    'rev' => $cdb_info['rev']
+                // We'll transfer the UUID of the deleted package.
+                $uuid = $e_cdb_package->get('uuid');
+                $package->set('uuid', $uuid);
+
+                // Delete the entire record from the store and recreate it.
+                $_id = $e_cdb_package->get('_id');
+                $_rev = $e_cdb_package->get('_rev');
+                $this->storageManager->delete($_id, $_rev);
+                $this->storageManager->create($package);
+
+                $response = [
+                    'status' => 'updated',
+                    'uuid' => $package->get('uuid')
                 ];
             }
         } else {
-            /* This one doesn't TODO only do this for 404 errors */
-            $cdb_info = $this->storageManager->create($package);
-            // 6. Update cdb_control
-            $o_package['cdb_control'] = [
-                'id' => $cdb_info['id'],
-                'rev' => $cdb_info['rev']
+            $this->storageManager->create($package);
+            $response = [
+                'status' => 'created',
+                'uuid' => $package->get('uuid')
             ];
         }
 
-        // 7. Return resultaat
-
+        // Output response
         $headers = [
             'Content-type' => 'application/json'
         ];
-        return response(json_encode((array)$o_package), 200, $headers);
+        return response(json_encode((array)$response), 200, $headers);
+    }
+
+    /**
+     * GET /record/{id}
+     *
+     * Fetches a single record and displays it as application/xml.
+     */
+    public function record($uuid)
+    {
+        if ($package = $this->storageManager->read($uuid)) {
+            // Extract the lido record from the package.
+            $record = $package->get('record');
+
+            // Conver the JSON object to XML.
+            $xml = $this->packageManager->objToXML($record);
+
+            // Output the XML as application/xml
+            $headers = [
+                'Content-type' => 'application/xml'
+            ];
+            return response($xml, 200, $headers);
+        } else {
+            App::abort(404);
+        }
     }
 }
