@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f8499a22d20ad3a8d9b580d2831226e8",
-    "content-hash": "a55122b81e2055772ec81f2fcc25c2a3",
+    "hash": "15bf59818bb3a4a00f5462ee24bb234a",
+    "content-hash": "1f200c175b65f2a55063f3a201fa0116",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -425,65 +425,6 @@
             "time": "2015-12-07 20:27:17"
         },
         {
-            "name": "doctrine/couchdb-odm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/couchdb-odm.git",
-                "reference": "51d328892dbe1097b049ee42c66b49da0789b68a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/couchdb-odm/zipball/51d328892dbe1097b049ee42c66b49da0789b68a",
-                "reference": "51d328892dbe1097b049ee42c66b49da0789b68a",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "~2.2",
-                "doctrine/couchdb": "~1.0@beta",
-                "doctrine/instantiator": "~1.0",
-                "php": ">=5.4",
-                "symfony/console": "~2.0|~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "@stable",
-                "symfony/yaml": "~2.0|~3.0"
-            },
-            "suggest": {
-                "symfony/yaml": "If you want to use YAML Mappings"
-            },
-            "bin": [
-                "bin/doctrine-couchdb.php"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\ODM\\CouchDB": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "CouchDB Document Object Mapper",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "couchdb",
-                "persistence"
-            ],
-            "time": "2015-11-11 20:37:41"
-        },
-        {
             "name": "doctrine/inflector",
             "version": "v1.1.0",
             "source": {
@@ -551,60 +492,6 @@
             "time": "2015-11-06 14:35:42"
         },
         {
-            "name": "doctrine/instantiator",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3,<8.0-DEV"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "ext-pdo": "*",
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2015-06-14 21:17:01"
-        },
-        {
             "name": "doctrine/lexer",
             "version": "v1.0.1",
             "source": {
@@ -659,51 +546,159 @@
             "time": "2014-09-09 13:34:57"
         },
         {
-            "name": "dready92/php-on-couch",
-            "version": "1.0.1-p2",
+            "name": "elasticsearch/elasticsearch",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dready92/PHP-on-Couch.git",
-                "reference": "d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0"
+                "url": "https://github.com/elastic/elasticsearch-php.git",
+                "reference": "add7f77f8e388d7d24df6d204c0be16bbb6c57c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dready92/PHP-on-Couch/zipball/d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0",
-                "reference": "d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/add7f77f8e388d7d24df6d204c0be16bbb6c57c4",
+                "reference": "add7f77f8e388d7d24df6d204c0be16bbb6c57c4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.0"
+                "guzzlehttp/ringphp": "~1.0",
+                "php": ">=5.4",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1",
+                "cpliakas/git-wrapper": "~1.0",
+                "mockery/mockery": "0.9.4",
+                "phpunit/phpunit": "~4.7",
+                "symfony/yaml": "2.4.3 as 2.4.2",
+                "twig/twig": "1.*"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "monolog/monolog": "Allows for client-level logging and tracing"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "lib/"
-                ]
+                "psr-4": {
+                    "Elasticsearch\\": "src/Elasticsearch/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPLv3"
+                "Apache 2"
             ],
             "authors": [
                 {
-                    "name": "Michael Bailly",
-                    "email": "mickael.bailly@free.fr",
-                    "homepage": "https://github.com/dready92/",
-                    "role": "Developer"
+                    "name": "Zachary Tong"
                 }
             ],
-            "description": "CouchDB NoSQL database access in PHP",
-            "homepage": "https://github.com/dready92/PHP-on-Couch",
+            "description": "PHP Client for Elasticsearch",
             "keywords": [
-                "apache",
-                "couch",
-                "couchdb",
-                "db",
-                "driver",
-                "nosql"
+                "client",
+                "elasticsearch",
+                "search"
             ],
-            "time": "2013-04-03 09:46:52"
+            "time": "2016-01-08 22:58:44"
+        },
+        {
+            "name": "guzzlehttp/ringphp",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/RingPHP.git",
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/streams": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Ring\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2015-05-20 03:37:09"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2014-10-12 19:18:40"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1508,6 +1503,50 @@
                 "uuid"
             ],
             "time": "2015-12-17 15:21:44"
+        },
+        {
+            "name": "react/promise",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "3b6fca09c7d56321057fa8867c8dbe1abf648627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/3b6fca09c7d56321057fa8867c8dbe1abf648627",
+                "reference": "3b6fca09c7d56321057fa8867c8dbe1abf648627",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "time": "2015-07-03 13:48:55"
         },
         {
             "name": "sabre/uri",
@@ -2506,6 +2545,60 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "doctrine/instantiator",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2015-06-14 21:17:01"
+        },
         {
             "name": "fzaninotto/faker",
             "version": "v1.5.0",
@@ -3678,8 +3771,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "doctrine/couchdb": 20,
-        "doctrine/couchdb-odm": 20
+        "doctrine/couchdb": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
