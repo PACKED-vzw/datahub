@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Services\XMLManager;
+use App\Services\PackageManager;
 
 class Record extends Controller
 {
 
-	protected $XMLManager;
+	protected $packageManager;
 
-		public function __construct(XMLManager $XMLManager) {
-			$this->XMLManager = $XMLManager;
+		public function __construct(PackageManager $packageManager) {
+			$this->packageManager = $packageManager;
 		}
 
 		function index(Request $request) {
@@ -22,7 +22,8 @@ class Record extends Controller
 			$lidoRecord = $request->getContent();
 
 			// 2. XML naar JSON (naief)
-			$lido_json = $this->XMLManager->XMLToJson('');
+			// $lido_json = $this->packageManager->XMLToJson('');
+			$lido_json = $this->packageManager->package('');
 
 			// 3. UUID toekennen
 
