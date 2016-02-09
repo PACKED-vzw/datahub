@@ -24,11 +24,6 @@ class PackageManager
 
     public function package($data)
     {
-        $data = '<?xml version="1.0" encoding="UTF-8"?>
-<lido:lidoWrap xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-<lido:lido><lido:lidoRecID lido:source="PACKED" lido:type="local" lido:label="Adlib database number">14104</lido:lidoRecID><lido:objectPublishedID lido:source="CVG" lido:type="WorkPID" lido:label="WorkPID">[WorkPID]</lido:objectPublishedID><lido:descriptiveMetadata xml:lang="nl-NL"><lido:objectClassificationWrap><lido:objectWorkTypeWrap><lido:objectWorkType><lido:term/></lido:objectWorkType></lido:objectWorkTypeWrap><lido:classificationWrap/></lido:objectClassificationWrap><lido:objectIdentificationWrap><lido:titleWrap><lido:titleSet><lido:appellationValue>Het Strand</lido:appellationValue></lido:titleSet></lido:titleWrap><lido:repositoryWrap><lido:repositorySet><lido:repositoryName><lido:legalBodyID lido:type="ISIL">BE-BRL10</lido:legalBodyID><lido:legalBodyName><lido:appellationValue>Collectie van de Vlaamse Gemeenschap (CVG)</lido:appellationValue></lido:legalBodyName></lido:repositoryName><lido:workID lido:type="object number">BK 0001</lido:workID></lido:repositorySet></lido:repositoryWrap></lido:objectIdentificationWrap><lido:eventWrap><lido:eventSet><lido:event><lido:eventType><lido:term>production</lido:term></lido:eventType><lido:eventDate><lido:displayDate>;1963;;1963</lido:displayDate><lido:date><lido:earliestDate/><lido:latestDate/></lido:date></lido:eventDate></lido:event></lido:eventSet><lido:eventSet><lido:event><lido:eventType><lido:term>acquisition</lido:term></lido:eventType><lido:eventDate><lido:displayDate>;1965</lido:displayDate><lido:date><lido:earliestDate/><lido:latestDate/></lido:date></lido:eventDate></lido:event></lido:eventSet><lido:eventSet><lido:event><lido:eventType><lido:term>provenance</lido:term></lido:eventType><lido:eventDate><lido:displayDate>1965;</lido:displayDate><lido:date><lido:earliestDate/><lido:latestDate/></lido:date></lido:eventDate></lido:event></lido:eventSet><lido:eventSet><lido:event><lido:eventID lido:type="?"/><lido:eventType><lido:term>condition assessment</lido:term></lido:eventType><lido:eventName><lido:appellationValue/></lido:eventName><lido:eventDate><lido:displayDate/><lido:date><lido:earliestDate/><lido:latestDate/></lido:date></lido:eventDate><lido:eventDescriptionSet><lido:descriptiveNoteValue/></lido:eventDescriptionSet></lido:event></lido:eventSet><lido:eventSet><lido:event><lido:eventID lido:type="?"/><lido:eventType><lido:term>condition assessment</lido:term></lido:eventType><lido:eventName><lido:appellationValue/></lido:eventName><lido:eventDate><lido:displayDate>2000</lido:displayDate><lido:date><lido:earliestDate/><lido:latestDate/></lido:date></lido:eventDate><lido:eventDescriptionSet><lido:descriptiveNoteValue>R/2000: in restauratie bij Mia Vandekerckhove 15/02/2000 bon 6646 en uit 18/07/2000 bon 6712</lido:descriptiveNoteValue></lido:eventDescriptionSet></lido:event></lido:eventSet></lido:eventWrap></lido:descriptiveMetadata><lido:administrativeMetadata xml:lang="nl-NL"><lido:recordWrap><lido:recordID lido:type="local">14104</lido:recordID><lido:recordType><lido:term>item</lido:term></lido:recordType><lido:recordSource><lido:legalBodyName><lido:appellationValue>Collectie van de Vlaamse Gemeenschap (CVG)</lido:appellationValue></lido:legalBodyName></lido:recordSource></lido:recordWrap></lido:administrativeMetadata></lido:lido>
-</lido:lidoWrap>';
-
         // 1. Create package
         $package = new ArrayCollection([
             'cdb_control' => [],
@@ -37,7 +32,8 @@ class PackageManager
             'metadata' => [
                 'created' => Carbon::now()->timestamp,
                 'hash' => null,
-                'short_hash' => null
+                'short_hash' => null,
+                'pref_id_hash' => null
             ],
         ]);
 
@@ -48,7 +44,7 @@ class PackageManager
         $package->set('metadata', $this->hash($package, $data));
 
         // 4. Set the uuid
-        $package->set('uuid', $package['metadata']['short_hash']); // TODO from workPid
+        $package->set('uuid', $package['metadata']['pref_id_hash']); // TODO from workPid
 
         // x. Return
         return $package;
@@ -58,7 +54,7 @@ class PackageManager
     {
         $metadata = $package->get('metadata');
         $metadata['hash'] = hash('sha256', $data);
-        $metadata['workpid_hash'] = hash('crc32', $this->getWorkPid($package));
+        $metadata['pref_id_hash'] = hash('crc32', $this->getUuidSource($package));
         $metadata['short_hash'] = hash('crc32', $metadata['hash']);
         return $metadata;
     }
@@ -68,26 +64,31 @@ class PackageManager
         return $this->service->parse($input_xml);
     }
 
-    protected function getWorkPid(ArrayCollection $package)
+    protected function getUuidSource(ArrayCollection $package)
     {
-        $lido_record = $package['record'][0];
+        $lido_record = $package['record'];
         /*
-         * Loop over $lido_record.value (is array) until we find the element containing the WorkPid
-         * "name": "{http://www.lido-schema.org}objectPublishedID",
-"value": "[WorkPID]",
-"attributes":
-{
-
-    "{http://www.lido-schema.org}source": "CVG",
-    "{http://www.lido-schema.org}type": "WorkPID",
-    "{http://www.lido-schema.org}label": "WorkPID"
+         * Loop over $lido_record.value (is array) until we find the element containing the lidoRecId that has
+         * pref set to preferred OR the first one if none can be found
          */
+        $lidoRecIDs = [];
         foreach($lido_record as $element) {
-            if($element['name'] == '{http://www.lido-schema.org}objectPublishedID' && $element['attributes']['{http://www.lido-schema.org}type'] == 'WorkPID') {
-                return $element['value'];
+            if($element['name'] == '{http://www.lido-schema.org}lidoRecID') {
+                if (array_key_exists('{http://www.lido-schema.org}pref', $element['attributes']) && $element['attributes']['{http://www.lido-schema.org}pref'] == 'preferred') {
+                    /* This is the preferred term, so we use this one */
+                    $lidoRecIDs = [$element];
+                    break;
+                }
+                array_push($lidoRecIDs, $element);
             }
         }
-
+        // Now create the string we'll hash
+        if(array_key_exists('{http://www.lido-schema.org}source', $lidoRecIDs[0]['attributes'])) {
+            $uuid_source = $lidoRecIDs[0]['attributes']['{http://www.lido-schema.org}source'].$lidoRecIDs[0]['value'];
+        } else {
+            $uuid_source = $lidoRecIDs[0]['value'];
+        }
+        return $uuid_source;
     }
 
 }

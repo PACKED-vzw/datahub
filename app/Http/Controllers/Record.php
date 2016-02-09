@@ -25,15 +25,12 @@ class Record extends Controller
     {
         // 1. validatie van request
         $lidoRecord = $request->getContent();
+        $xml_file = __DIR__.'/lido_example.xml';
+        $xml_data = file_get_contents($xml_file);
 
         // 2. XML naar JSON (naief)
         // $lido_json = $this->packageManager->XMLToJson('');
-        $package = $this->packageManager->package('');
-        $cdb_control = [
-           'id' => '0a103d69',
-           'rev' => '1-b68362c84085e31c4571821fbe488c3d'
-           ];
-        $package->set('cdb_control', $cdb_control);
+        $package = $this->packageManager->package($xml_data);
 
         // 3. UUID toekennen
 
