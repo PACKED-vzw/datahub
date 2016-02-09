@@ -35,14 +35,14 @@ class PackageManager
         }
 
         $package = new ArrayCollection([
-           'uuid' => $uuid4->toString(),
-           'record' => $record,
-           'metadata' => [
-               'created' => Carbon::now()->timestamp
-           ],
-       	]);
+            'cdb_control' => [],
+            'record' => $record,
+            'metadata' => [
+                'created' => Carbon::now()->timestamp
+            ],
+        ]);
 
-        return json_encode((array)$package);
+        return $package;
     }
 
     public function XMLToJson($input_xml)

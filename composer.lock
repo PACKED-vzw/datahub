@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cdd1aecdade789571943e7807fc7a282",
-    "content-hash": "bb350cf90581ecb2c39cdcd95895cae6",
+    "hash": "f8499a22d20ad3a8d9b580d2831226e8",
+    "content-hash": "a55122b81e2055772ec81f2fcc25c2a3",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -425,6 +425,65 @@
             "time": "2015-12-07 20:27:17"
         },
         {
+            "name": "doctrine/couchdb-odm",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/couchdb-odm.git",
+                "reference": "51d328892dbe1097b049ee42c66b49da0789b68a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/couchdb-odm/zipball/51d328892dbe1097b049ee42c66b49da0789b68a",
+                "reference": "51d328892dbe1097b049ee42c66b49da0789b68a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "doctrine/couchdb": "~1.0@beta",
+                "doctrine/instantiator": "~1.0",
+                "php": ">=5.4",
+                "symfony/console": "~2.0|~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable",
+                "symfony/yaml": "~2.0|~3.0"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to use YAML Mappings"
+            },
+            "bin": [
+                "bin/doctrine-couchdb.php"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\ODM\\CouchDB": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                }
+            ],
+            "description": "CouchDB Document Object Mapper",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "couchdb",
+                "persistence"
+            ],
+            "time": "2015-11-11 20:37:41"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "v1.1.0",
             "source": {
@@ -492,6 +551,60 @@
             "time": "2015-11-06 14:35:42"
         },
         {
+            "name": "doctrine/instantiator",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2015-06-14 21:17:01"
+        },
+        {
             "name": "doctrine/lexer",
             "version": "v1.0.1",
             "source": {
@@ -544,6 +657,53 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "dready92/php-on-couch",
+            "version": "1.0.1-p2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dready92/PHP-on-Couch.git",
+                "reference": "d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dready92/PHP-on-Couch/zipball/d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0",
+                "reference": "d4bfad858d35a5886dcfb7c8145caeb0cdeeeba0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Bailly",
+                    "email": "mickael.bailly@free.fr",
+                    "homepage": "https://github.com/dready92/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CouchDB NoSQL database access in PHP",
+            "homepage": "https://github.com/dready92/PHP-on-Couch",
+            "keywords": [
+                "apache",
+                "couch",
+                "couchdb",
+                "db",
+                "driver",
+                "nosql"
+            ],
+            "time": "2013-04-03 09:46:52"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -2347,60 +2507,6 @@
     ],
     "packages-dev": [
         {
-            "name": "doctrine/instantiator",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3,<8.0-DEV"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "ext-pdo": "*",
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2015-06-14 21:17:01"
-        },
-        {
             "name": "fzaninotto/faker",
             "version": "v1.5.0",
             "source": {
@@ -3572,7 +3678,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "doctrine/couchdb": 20
+        "doctrine/couchdb": 20,
+        "doctrine/couchdb-odm": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
