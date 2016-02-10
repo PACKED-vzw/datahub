@@ -1,29 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pieter
- * Date: 9/02/16
- * Time: 09:31
- */
 
-namespace app\Services;
+namespace App\Services;
 
 use Carbon\Carbon;
 use App\Services\PackageManager;
 use Doctrine\CouchDB\HTTP\HTTPException;
+use Doctrine\CouchDB\CouchDBClient;
 use Doctrine\Common\Collections\ArrayCollection;
 use Illuminate\Support\Arr;
-
 
 class StorageManager
 {
     protected $client;
+
     public function __construct()
     {
-        $this->client = \Doctrine\CouchDB\CouchDBClient::create(array('dbname' => 'datahub'));
-        /*
-         * Create database
-         */
+        $this->client = CouchDBClient::create(array('dbname' => 'datahub'));
+
+        // Create a database
         try {
             $this->client->createDatabase($this->client->getDatabase());
         } catch(HTTPException $e) {
@@ -44,27 +38,29 @@ class StorageManager
         ];
         return $cdb_package;
         */
-        if($package['uuid'] !== null) {
+        if ($package['uuid'] !== null) {
             $c_package = $this->client->putDocument($package->toArray(), $package['uuid']);
         } else {
             $c_package = $this->client->postDocument($package->toArray());
         }
-        $cdb_package = [
-            'id' => $c_package[0],
-            'rev' => $c_package[1]
-        ];
-        return $cdb_package;
+
+        return $c_package;
     }
 
+    /**
+     * Reads a document based on a cbd_id
+     *
+     * @param $cbd_id the uuid of the document
+     * @return false if the document could not be retrieved or the document.
+     */
     public function read($cdb_id)
     {
         $c_package = $this->client->findDocument($cdb_id);
-        if($c_package->status != 200) {
-            /*
-             * This item does not exist
-             */
+        if ($c_package->status != 200) {
+            return false;
         }
-        return $c_package;
+
+        return new ArrayCollection($c_package->body);
     }
 
     public function update($cdb_id, $cdb_rev, ArrayCollection $package)
@@ -80,14 +76,4 @@ class StorageManager
     {
         $this->client->deleteDocument($cdb_id, $cdb_rev);
     }
-
-    public function compare_hash(ArrayCollection $package, $cdb_result)
-    {
-        if($package['metadata']['hash'] === $cdb_result->body['metadata']['hash']) {
-            return true;
-        }
-        return false;
-    }
-
-
 }

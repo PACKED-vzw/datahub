@@ -16,6 +16,7 @@
 }); */
 
 Route::get('/record', 'Record@index');
+Route::get('/record/{uuid}', 'Record@record');
 
 /*
 |--------------------------------------------------------------------------
