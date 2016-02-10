@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Services\PackageManager;
 use App\Services\StorageManager;
 use App\Services\SearchManager;
+use Sabre\Xml\Service;
 
 class Record extends Controller
 {
@@ -23,6 +24,7 @@ class Record extends Controller
         $this->packageManager = $packageManager;
         $this->storageManager = $storageManager;
         $this->searchManager = $searchManager;
+        $this->service = new Service();
     }
 
     /**
@@ -102,5 +104,46 @@ class Record extends Controller
         } else {
             App::abort(404);
         }
+    }
+
+    /**
+     * GET /collection/{facet}/{term}
+     *
+     * Fetches a list of records based on a single search axis. Supports 3 types
+     * of axes: materials, creator, institute.
+     */
+    public function collection($facet, $term)
+    {
+        $result = $this->searchManager->search($facet, $term);
+
+        // *very* leaky abstraction: XML writing / reading should reside in a
+        // separate service.
+        //
+        // @todo
+        //  Specify the format / datamodel / structure of the 'collection' API
+        //  call. The REST principle dictates to at least provides links to the
+        //  individual resources usable for further querying.
+        $urls = array_map(function ($hit) {
+            return ['name' => 'url', 'value' => url('record', $hit)];
+        }, $result['hits']);
+
+
+        $xml = $this->service->write('result', [
+            'facet' => [
+                'value' => $term
+            ],
+            'total' => [
+                'value' => $result['total']
+            ],
+            'urls' => [
+                'value' => $urls
+            ]
+        ]);
+
+        // Output the XML as application/xml
+        $headers = [
+            'Content-type' => 'application/xml'
+        ];
+        return response($xml, 200, $headers);
     }
 }

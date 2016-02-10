@@ -17,6 +17,7 @@
 
 Route::post('/record', 'Record@index');
 Route::get('/record/{uuid}', 'Record@record');
+Route::get('/collection/{facet}/{term}', 'Record@collection');
 
 /*
 |--------------------------------------------------------------------------
