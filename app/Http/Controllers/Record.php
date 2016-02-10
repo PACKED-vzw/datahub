@@ -10,17 +10,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\PackageManager;
 use App\Services\StorageManager;
+use App\Services\SearchManager;
 
 class Record extends Controller
 {
-
     protected $packageManager;
+
     protected $storageManager;
 
-    public function __construct(PackageManager $packageManager, StorageManager $storageManager)
+    public function __construct(PackageManager $packageManager, StorageManager $storageManager, SearchManager $searchManager)
     {
         $this->packageManager = $packageManager;
         $this->storageManager = $storageManager;
+        $this->searchManager = $searchManager;
     }
 
     /**
@@ -32,11 +34,11 @@ class Record extends Controller
     {
         // Retrieve & validate othe request data.
         $lidoRecord = $request->getContent();
-        $xml_file = __DIR__.'/lido_example.xml';
-        $xml_data = file_get_contents($xml_file);
+        //$xml_file = __DIR__.'/lido_example.xml';
+        //$lidoRecord = file_get_contents($xml_file);
 
         // Package the data.
-        $package = $this->packageManager->package($xml_data);
+        $package = $this->packageManager->package($lidoRecord);
 
         $response = [];
 
@@ -78,7 +80,7 @@ class Record extends Controller
         $headers = [
             'Content-type' => 'application/json'
         ];
-        return response(json_encode((array)$response), 200, $headers);
+        return response(json_encode($response), 200, $headers);
     }
 
     /**
@@ -88,10 +90,7 @@ class Record extends Controller
      */
     public function record($uuid)
     {
-        if ($package = $this->storageManager->read($uuid)) {
-            // Extract the lido record from the package.
-            $record = $package->get('record');
-
+        if ($record = $this->searchManager->retrieve($uuid)) {
             // Conver the JSON object to XML.
             $xml = $this->packageManager->objToXML($record);
 

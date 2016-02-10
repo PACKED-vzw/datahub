@@ -25,6 +25,29 @@ class StorageManager
         }
     }
 
+    public function all()
+    {
+        $response = $this->client->allDocs();
+
+        if ($response->status != 200) {
+            return false; // throw exception
+        }
+
+        $objects = new ArrayCollection();
+        foreach ($response->body['rows'] as $row) {
+            $package = new ArrayCollection($row['doc']);
+            $objects->add($package);
+        }
+
+        $result = [
+            'total_rows' => $response->body['total_rows'],
+            'offset' => $response->body['offset'],
+            'rows' => $objects
+        ];
+
+        return $result;
+    }
+
     public function create(ArrayCollection $package)
     {
         /*

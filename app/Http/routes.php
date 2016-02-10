@@ -15,7 +15,7 @@
     return view('welcome');
 }); */
 
-Route::get('/record', 'Record@index');
+Route::post('/record', 'Record@index');
 Route::get('/record/{uuid}', 'Record@record');
 
 /*
