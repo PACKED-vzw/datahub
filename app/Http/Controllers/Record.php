@@ -92,15 +92,40 @@ class Record extends Controller
      */
     public function record($uuid)
     {
-        if ($record = $this->searchManager->retrieve($uuid)) {
-            // Conver the JSON object to XML.
-            $xml = $this->packageManager->objToXML($record);
+        if (strstr($uuid, '.')) {
+            list($uuid, $format) = explode('.', $uuid);
+        } else {
+            $format = 'json';
+        }
 
-            // Output the XML as application/xml
-            $headers = [
-                'Content-type' => 'application/xml'
-            ];
-            return response($xml, 200, $headers);
+        if ($record = $this->searchManager->retrieve($uuid)) {
+            if ($format == 'xml') {
+                // Convert the JSON object to XML.
+                $data = $this->packageManager->objToXML($record);
+
+                // Output the XML as application/xml
+                $headers = [
+                    'Content-type' => 'application/xml'
+                ];
+            }
+
+            if ($format == 'json') {
+                $data = json_encode([
+                    'links' => [
+                        'self' => [
+                            'href' => url('record/'.$uuid)
+                        ]
+                    ],
+                    'record' => $record,
+                ]);
+
+                // Output the XML as application/json
+                $headers = [
+                    'Content-type' => 'application/json'
+                ];
+            }
+
+            return response($data, 200, $headers);
         } else {
             App::abort(404);
         }

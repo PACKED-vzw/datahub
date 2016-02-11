@@ -15,8 +15,10 @@
     return view('welcome');
 }); */
 
+Route::pattern('format', '\.xml|\.json|.{0}');
+
 Route::post('/record', 'Record@index');
-Route::get('/record/{uuid}', 'Record@record');
+Route::get('/record/{uuid}{format}', 'Record@record');
 Route::get('/search/{facet}/{term}', 'Record@collection');
 
 Route::get('/collection', 'Collection@index');
