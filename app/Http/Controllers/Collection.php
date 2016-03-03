@@ -33,6 +33,7 @@ class Collection extends Controller
                     return [
                         'name' => $collection['doc']['name'],
                         'slug' => $collection['doc']['slug'],
+                        'id' => $collection['id'],
                         'links' => [
                             'self' => [
                                 'href' => url('/collection/'.$collection['id'])
@@ -108,6 +109,7 @@ class Collection extends Controller
             'embedded'=> [
                 'records' => array_map(function ($record) {
                     return [
+                        'id' => $record,
                         'links' => [
                             'self' => [
                                 'href' => url('/record/' . $record),
