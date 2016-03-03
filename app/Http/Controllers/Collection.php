@@ -44,6 +44,7 @@ class Collection extends Controller
         ];
 
         $headers = [
+            "Access-Control-Allow-Origin" => '*',
             'Content-type' => 'application/json'
         ];
         return response(json_encode($collections), 200, $headers);
@@ -118,6 +119,7 @@ class Collection extends Controller
         ];
 
         $headers = [
+            "Access-Control-Allow-Origin" => '*',
             'Content-type' => 'application/json'
         ];
         return response(json_encode($collection), 200, $headers);

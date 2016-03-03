@@ -80,6 +80,7 @@ class Record extends Controller
 
         // Output response
         $headers = [
+            "Access-Control-Allow-Origin" => '*',
             'Content-type' => 'application/json'
         ];
         return response(json_encode($response), 200, $headers);
@@ -105,6 +106,7 @@ class Record extends Controller
 
                 // Output the XML as application/xml
                 $headers = [
+                    "Access-Control-Allow-Origin" => '*',
                     'Content-type' => 'application/xml'
                 ];
             }
@@ -121,6 +123,7 @@ class Record extends Controller
 
                 // Output the XML as application/json
                 $headers = [
+                    "Access-Control-Allow-Origin" => '*',
                     'Content-type' => 'application/json'
                 ];
             }
@@ -167,6 +170,7 @@ class Record extends Controller
 
         // Output the XML as application/xml
         $headers = [
+            "Access-Control-Allow-Origin" => '*',
             'Content-type' => 'application/xml'
         ];
         return response($xml, 200, $headers);
