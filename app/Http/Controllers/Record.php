@@ -32,7 +32,7 @@ class Record extends Controller
      *
      * Create or update an existing record in the datahub
      */
-    function index(Request $request)
+    function store(Request $request)
     {
         // Retrieve & validate othe request data.
         $lidoRecord = $request->getContent();

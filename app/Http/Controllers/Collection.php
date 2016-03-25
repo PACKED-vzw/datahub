@@ -51,11 +51,11 @@ class Collection extends Controller
         return response(json_encode($collections), 200, $headers);
     }
 
-    public function postCollection(Request $request)
+    public function store(Request $request)
     {
         $data = $request->getContent();
-
         $collection = json_decode($data, TRUE);
+
         $response = $this->collectionManager->create($collection);
 
         $collection['id'] = $response[0];
@@ -72,7 +72,7 @@ class Collection extends Controller
         return response(json_encode($collection), 200, $headers);
     }
 
-    public function updateCollection($id, Request $request)
+    public function update($id, Request $request)
     {
         $data = $request->getContent();
         $collection = json_decode($data, TRUE);
@@ -93,7 +93,7 @@ class Collection extends Controller
         return response(json_encode($collection), 200, $headers);
     }
 
-    public function getCollection($id)
+    public function show($id)
     {
         $response = $this->collectionManager->read($id);
 
@@ -127,7 +127,7 @@ class Collection extends Controller
         return response(json_encode($collection), 200, $headers);
     }
 
-    public function deleteCollection($id)
+    public function destroy($id)
     {
         $this->collectionManager->delete($id);
         $headers = [

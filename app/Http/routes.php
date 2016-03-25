@@ -17,16 +17,13 @@
 
 Route::pattern('format', '\.xml|\.json|.{0}');
 
-Route::post('/record', 'Record@index');
 Route::get('/record/{uuid}{format}', 'Record@record');
+Route::resource('record', 'record',
+    ['only' => [ 'store' ]]);
+
 Route::get('/search/{facet}/{term}', 'Record@collection');
 
-Route::get('/collection', 'Collection@index');
-Route::post('/collection', 'Collection@postCollection');
-Route::get('/collection/{id}', 'Collection@getCollection');
-Route::delete('/collection/{id}', 'Collection@deleteCollection');
-Route::put('/collection/{id}', 'Collection@updateCollection');
-
+Route::resource('collection', 'collection');
 
 /*
 |--------------------------------------------------------------------------
