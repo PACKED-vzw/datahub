@@ -17,6 +17,10 @@
 
 Route::pattern('format', '\.xml|\.json|.{0}');
 
+Route::get('/', function () {
+    return view('home');
+});
+
 Route::get('/record/{uuid}{format}', 'Record@record');
 Route::resource('record', 'record',
     ['only' => [ 'store' ]]);
