@@ -22,12 +22,12 @@ Route::get('/', function () {
 });
 
 Route::get('/record/{uuid}{format}', 'Record@record');
-Route::resource('record', 'record',
+Route::resource('record', 'Record',
     ['only' => [ 'store' ]]);
 
 Route::get('/search/{facet}/{term}', 'Record@collection');
 
-Route::resource('collection', 'collection');
+Route::resource('collection', 'Collection');
 
 /*
 |--------------------------------------------------------------------------
